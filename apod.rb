@@ -22,6 +22,7 @@ get '/' do
   t = Time.now
   @title = "APOD - #{t.strftime('%A, %B %e')}"
   @todays_image = get_todays_image
+  @rendered_at = t.to_s
   erb :index
 end
 
@@ -65,3 +66,4 @@ __END__
 
 @@ index
 <img src="<%= @todays_image %>" />
+<p>Rendered at <%= @rendered_at %></p>
