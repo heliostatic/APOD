@@ -66,4 +66,3 @@ __END__
 
 @@ index
 <img src="<%= @todays_image %>" />
-<p>Rendered at <%= @rendered_at %></p>
