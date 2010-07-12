@@ -112,6 +112,9 @@ __END__
       width: <%= @todays_image["width"] %>;
       text-align:center;
     }
+    a {
+      text-decoration:none;
+    }
   </style>
 </head>
 <body>
@@ -123,5 +126,5 @@ __END__
 
 @@ index
 <section id="apod_image">
-  <img src="<%= @todays_image["url"] %>" />
+  <a href="http://apod.nasa.gov/apod/"><img src="<%= @todays_image["url"] %>" /></a>
 </section>
