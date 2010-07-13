@@ -94,5 +94,5 @@ $(window).load(function (){
 @@ index
 <section id="apod_image">
   <h2>The Astronomy Picture of the Day for <%= @todays_image["time"].strftime('%A, %B %e, %Y') %></h2>
-  <a href="http://apod.nasa.gov/apod/"><img id="apod" src="<%= @todays_image["url"] %>" /></a>
+  <a href="http://apod.nasa.gov/apod/ap<%= @todays_image["time"].strftime('%y%m%d') %>.html"><img id="apod" src="<%= @todays_image["url"] %>" /></a>
 </section>
