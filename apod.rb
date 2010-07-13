@@ -5,6 +5,10 @@ require "nokogiri"
 require 'open-uri'
 require 'net/http'
 
+class Apod_Image
+  
+end
+
 BASE_URL = "http://antwrp.gsfc.nasa.gov/apod/"
 
 helpers do
@@ -17,16 +21,15 @@ helpers do
         @todays_image["url"] = BASE_URL + link_url
       end
     end
+    t = Time.now
+    @todays_image["time"] = t
     @todays_image
   end
 end
 
 get '/' do
   response.headers['Cache-Control'] = 'public, max-age=3600'
-  t = Time.now
-  @title = "APOD - #{t.strftime('%A, %B %e')}"
   @todays_image = get_todays_image
-  @rendered_at = t.to_s
   erb :index
 end
 
@@ -36,11 +39,12 @@ __END__
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= @title %></title>
+  <title>APOD - <%= @todays_image["time"].strftime('%A, %B %e') %></title>
   <meta name="description" content="" />
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="style.css" />
+  <link href=' http://fonts.googleapis.com/css?family=Droid+Serif' rel='stylesheet' type='text/css'>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
   <style>
     html {
@@ -55,7 +59,9 @@ __END__
       -webkit-box-shadow: 0px 0px 10px #666;
       box-shadow: 0px 0px 10px #666;;
     }
-    #apod_image {
+    #apod_image h2{
+      text-align:center;
+      font-family: 'Droid Serif';
     }
     a {
       text-decoration:none;
@@ -73,7 +79,7 @@ $(window).resize(function(){
   $('#apod_image').css({
 	  position:'absolute',
 	  left: ($(window).width() - $('#apod').outerWidth())/2,
-	  top: ($(window).height() - $('#apod').outerHeight())/2
+	  top: ($(window).height() - $('#apod').outerHeight())/3
   });
 
 });
@@ -87,5 +93,6 @@ $(window).load(function (){
 
 @@ index
 <section id="apod_image">
+  <h2>The Astronomy Picture of the Day for <%= @todays_image["time"].strftime('%A, %B %e, %Y') %></h2>
   <a href="http://apod.nasa.gov/apod/"><img id="apod" src="<%= @todays_image["url"] %>" /></a>
 </section>
