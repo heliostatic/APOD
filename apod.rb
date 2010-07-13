@@ -5,53 +5,6 @@ require "nokogiri"
 require 'open-uri'
 require 'net/http'
 
-class JpegDimensions
-  attr_reader :width, :height
-
-  def initialize(image_path)
-    @uri_split = URI.split(image_path)
-    find_jpeg_size
-  end
-
-  def find_jpeg_size
-    begin
-      http = Net::HTTP.new(@uri_split[2], @uri_split[3])
-      state = 0
-      http.get(@uri_split[5]) do |str|  # this yields strings as each packet arrives
-        str.each_byte do |b|
-          state = case state
-          when 0
-            b == 0xFF ? 1 : 0
-          when 1
-            b >= 0xC0 && b <= 0xC3 ? 2 : 0
-          when 2
-            3
-          when 3
-            4
-          when 4
-            5
-          when 5
-            @height = b * 256
-            6
-          when 6
-            @height += b
-            7
-          when 7
-            @width = b * 256
-            8
-          when 8
-            @width += b
-            break
-          end
-        end
-        break if state == 8  # don't need to fetch any more of the image
-      end
-    rescue Exception=>e
-      # I do nothing here, but you can do something more useful with the exception if required
-    end
-  end
-end
-
 BASE_URL = "http://antwrp.gsfc.nasa.gov/apod/"
 
 helpers do
@@ -62,8 +15,6 @@ helpers do
       link_url = link.attributes["href"]
       if /image.*\.jpg/ =~ link_url then 
         @todays_image["url"] = BASE_URL + link_url
-        jpg_info = JpegDimensions.new(@todays_image["url"])
-        @todays_image["width"] = jpg_info.width
       end
     end
     @todays_image
@@ -96,7 +47,6 @@ __END__
       background:url("http://people.ischool.berkeley.edu/~bcohen/sfemail/background.jpg")
     }
     #content {
-      margin-top: 2em;
     }
     img {
       border: 1px black darkgrey;
@@ -106,11 +56,6 @@ __END__
       box-shadow: 0px 0px 10px #666;;
     }
     #apod_image {
-      margin-left:auto;
-      margin-right:auto;
-      display:block;
-      width: <%= @todays_image["width"] %>;
-      text-align:center;
     }
     a {
       text-decoration:none;
@@ -122,9 +67,25 @@ __END__
   <%= yield %>
   </section>
 </body>
+<script type="text/javascript">
+$(window).resize(function(){
+
+  $('#apod_image').css({
+	  position:'absolute',
+	  left: ($(window).width() - $('#apod').outerWidth())/2,
+	  top: ($(window).height() - $('#apod').outerHeight())/2
+  });
+
+});
+
+// To initially run the function:
+$(window).load(function (){
+  $(this).resize();
+});
+</script>
 </html>
 
 @@ index
 <section id="apod_image">
-  <a href="http://apod.nasa.gov/apod/"><img src="<%= @todays_image["url"] %>" /></a>
+  <a href="http://apod.nasa.gov/apod/"><img id="apod" src="<%= @todays_image["url"] %>" /></a>
 </section>
