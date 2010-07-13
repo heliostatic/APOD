@@ -79,7 +79,7 @@ $(window).resize(function(){
   $('#apod_image').css({
 	  position:'absolute',
 	  left: ($(window).width() - $('#apod').outerWidth())/2,
-	  top: ($(window).height() - $('#apod').outerHeight())/2 > 0 ? ($(window).height() - $('#apod').outerHeight())/2 + $('#apod_image h2').outerHeight(true) : 0
+	  top: ($(window).height() - $('#apod').outerHeight())/2 > 0 ? ($(window).height() - $('#apod').outerHeight())/2 : 0
   });
 
 });
