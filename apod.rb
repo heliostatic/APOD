@@ -62,6 +62,7 @@ __END__
     #apod_image h2{
       text-align:center;
       font-family: 'Droid Serif';
+      overflow:auto;
     }
     a {
       text-decoration:none;
@@ -76,6 +77,10 @@ __END__
 <script type="text/javascript">
 $(window).resize(function(){
 
+  $('#apod_image #apod').css({
+    width: $(this).width() > 0.8 * $(window).width() ? 0.8 * $(window).width() : $(this).width()
+  });
+  
   $('#apod_image').css({
 	  position:'absolute',
 	  left: ($(window).width() - $('#apod').outerWidth())/2 > 0 ? ($(window).width() - $('#apod').outerWidth())/2 : 0,
