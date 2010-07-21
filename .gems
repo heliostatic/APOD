@@ -1,3 +1,5 @@
 mechanize
 sinatra
 nokogiri
+dm-core
+dm-types
