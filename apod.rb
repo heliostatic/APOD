@@ -4,33 +4,57 @@ require "sinatra"
 require "nokogiri"
 require 'open-uri'
 require 'net/http'
+require "dm-core"
+require "dm-types"
 
 class Apod_Image
+  include DataMapper::Resource
+  
+  property :id,         Serial # primary serial key
+  property :image_url,      String, :required => true
+  property :url,       String,   :required => true
+  property :title,    String,   :required => true
+  property :created_at, DateTime
+  property :updated_at, DateTime
   
 end
 
 BASE_URL = "http://antwrp.gsfc.nasa.gov/apod/"
 
 helpers do
-  def get_todays_image
+  def get_days_image(date = Time.now.strftime('%y%m%d'))
     @todays_image = {}
-    doc = Nokogiri::HTML(open(BASE_URL))
+    @todays_image[:date] = date
+    @todays_image[:base_url] = (BASE_URL + "ap" + date + ".html")
+    doc = Nokogiri::HTML(open(@todays_image[:base_url]))
     doc.css('p > a').each do |link|
       link_url = link.attributes["href"]
       if /image.*\.jpg/ =~ link_url then 
         @todays_image["url"] = BASE_URL + link_url
       end
     end
-    t = Time.now
-    @todays_image["time"] = t
+    @todays_image[:title_date] = Time.parse(date).strftime('%A, %B %e, %Y')
     @todays_image
   end
 end
 
+configure do
+  DataMapper.setup(:default, ENV['DATABASE_URL'] || 'sqlite3://my.db')
+end
+
 get '/' do
   response.headers['Cache-Control'] = 'public, max-age=3600'
-  @todays_image = get_todays_image
+  @todays_image = get_days_image
   erb :index
+end
+
+get "/:date" do
+  if params[:date] =~ /\d{6}/ then
+    @todays_image = get_days_image(params[:date])
+    erb :index
+  else
+    redirect "/"
+  end
 end
 
 __END__
@@ -39,7 +63,7 @@ __END__
 <!DOCTYPE html>
 <html>
 <head>
-  <title>APOD - <%= @todays_image["time"].strftime('%A, %B %e') %></title>
+  <title>APOD - <%= @todays_image[:title_date] %></title>
   <meta name="description" content="" />
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
@@ -89,7 +113,7 @@ $(window).resize(function(){
 
 });
 
-// To initially run the function:
+// To initially run the function. We could use trigger("resize"); on the previous method, but the image is slow to load.
 $(window).load(function (){
   $(this).resize();
 });
@@ -98,6 +122,7 @@ $(window).load(function (){
 
 @@ index
 <section id="apod_image">
-  <h2>The Astronomy Picture of the Day for <%= @todays_image["time"].strftime('%A, %B %e, %Y') %></h2>
-  <a href="http://apod.nasa.gov/apod/ap<%= @todays_image["time"].strftime('%y%m%d') %>.html"><img id="apod" src="<%= @todays_image["url"] %>" /></a>
+  <div id="back_nav" style=""><a href="">Go Back</a></div>
+  <h2>The Astronomy Picture of the Day for <%= @todays_image[:title_date] %></h2>
+  <a href="http://apod.nasa.gov/apod/ap<%= @todays_image[:date] %>.html"><img id="apod" src="<%= @todays_image["url"] %>" /></a>
 </section>
