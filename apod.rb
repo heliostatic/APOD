@@ -11,7 +11,8 @@ class Apod_Image
   include DataMapper::Resource
   
   property :id,         Serial # primary serial key
-  property :image_url,      String, :required => true
+  property :large_image_url,      String
+  property :small_image_url,      String
   property :url,       String,   :required => true
   property :title,    String,   :required => true
   property :created_at, DateTime
@@ -20,19 +21,29 @@ class Apod_Image
 end
 
 BASE_URL = "http://antwrp.gsfc.nasa.gov/apod/"
+ONE_DAY = 60 * 60 * 24
 
 helpers do
   def get_days_image(date = Time.now.strftime('%y%m%d'))
     @todays_image = {}
     @todays_image[:date] = date
+    @todays_image[:tomorrow] = @todays_image[:date]
     @todays_image[:base_url] = (BASE_URL + "ap" + date + ".html")
     doc = Nokogiri::HTML(open(@todays_image[:base_url]))
     doc.css('p > a').each do |link|
       link_url = link.attributes["href"]
       if /image.*\.jpg/ =~ link_url then 
-        @todays_image["url"] = BASE_URL + link_url
+        @todays_image[:large_image_url] = BASE_URL + link_url
       end
     end
+    doc.css('a > img').each do |link|
+      link_url = link.attributes["src"]
+      if /image.*\.jpg/ =~ link_url then 
+        @todays_image[:small_image_url] = BASE_URL + link_url
+      end
+    end
+    @todays_image[:yesterday] = Time.parse((Time.parse(date) - ONE_DAY).to_s).strftime('%y%m%d')
+    @todays_image[:tomorrow] = Time.parse((Time.parse(date) + ONE_DAY).to_s).strftime('%y%m%d') unless Time.parse(date) == Time.now
     @todays_image[:title_date] = Time.parse(date).strftime('%A, %B %e, %Y')
     @todays_image
   end
@@ -74,6 +85,10 @@ __END__
     html {
       background:url("http://people.ischool.berkeley.edu/~bcohen/sfemail/background.jpg")
     }
+    body {
+      padding:0;
+      margin:0;
+    }
     #content {
     }
     img {
@@ -90,6 +105,39 @@ __END__
     }
     a {
       text-decoration:none;
+    }
+    #apod_image {
+    }
+    .clear {
+      clear:both;
+    }
+    #prev_nav, #next_nav {
+      width:10%;
+      display:inline-block;
+      cursor: pointer;
+      padding:0;
+      margin-left:0;
+      margin-right:0;
+      position:fixed;
+    }
+    #prev_nav 
+    {
+      left:0;
+    }
+    #next_nav {
+      right:0;
+      text-align:right;
+    }
+    .left, .right {
+      margin: 0 1em;
+    }
+    .right {
+      right:0;
+      text-align:right;
+    }
+    .arrow {
+      position:fixed;
+      font-size:2em;
     }
   </style>
 </head>
@@ -110,6 +158,15 @@ $(window).resize(function(){
 	  left: ($(window).width() - $('#apod').outerWidth())/2 > 0 ? ($(window).width() - $('#apod').outerWidth())/2 : 0,
 	  top: ($(window).height() - $('#apod').outerHeight())/2 - $('#apod_image h2').outerHeight(true) > 0 ? ($(window).height() - $('#apod').outerHeight())/2 - $('#apod_image h2').outerHeight(true) : 0
   });
+  
+  $('#prev_nav').css({
+    height: $(window).height(),
+    'line-height': $(window).height() * 0.96 + 'px'
+  });
+  $('#next_nav').css({
+    height:$('#prev_nav').height(),
+    'line-height': $('#prev_nav').css('line-height')
+  })
 
 });
 
@@ -121,8 +178,10 @@ $(window).load(function (){
 </html>
 
 @@ index
+<a href="/<%= @todays_image[:yesterday]%>" id="prev_nav"><span class="arrow left">←</span></a>
 <section id="apod_image">
-  <div id="back_nav" style=""><a href="">Go Back</a></div>
   <h2>The Astronomy Picture of the Day for <%= @todays_image[:title_date] %></h2>
-  <a href="http://apod.nasa.gov/apod/ap<%= @todays_image[:date] %>.html"><img id="apod" src="<%= @todays_image["url"] %>" /></a>
+  <a href="http://apod.nasa.gov/apod/ap<%= @todays_image[:date] %>.html"><img id="apod" src="<%= @todays_image[:small_image_url] %>" /></a>
 </section>
+<a href="/<%= @todays_image[:tomorrow]%>" id="next_nav"><span class="arrow right">→</span></a>
+<!-- <a href="<%= @todays_image[:large_image_url]%>" style="text-align:center;">download full size</a> -->
