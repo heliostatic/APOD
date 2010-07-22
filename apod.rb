@@ -68,6 +68,7 @@ get '/' do
 end
 
 get %r{/(\d{6})} do |date|
+  response.headers['Cache-Control'] = 'public, max-age=604800'
   t = Time.parse(date) rescue false
   if t then
     @todays_image = get_days_image(date)
@@ -89,6 +90,8 @@ __END__
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
   <link href=' http://fonts.googleapis.com/css?family=Droid+Serif' rel='stylesheet' type='text/css'>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+  <script src="./js/jquery.hotkeys.js" type="text/javascript"></script>
+  <script src="./js/apod.js" type="text/javascript"></script>
   <style>
     html {
       background:url("http://people.ischool.berkeley.edu/~bcohen/sfemail/background.jpg")
@@ -154,35 +157,6 @@ __END__
   <%= yield %>
   </section>
 </body>
-<script type="text/javascript">
-$(window).resize(function(){
-
-  $('#apod_image #apod').css({
-    width: $(this).width() > 0.8 * $(window).width() ? 0.8 * $(window).width() : $(this).width()
-  });
-  
-  $('#apod_image').css({
-	  position:'absolute',
-	  left: ($(window).width() - $('#apod').outerWidth())/2 > 0 ? ($(window).width() - $('#apod').outerWidth())/2 : 0,
-	  top: ($(window).height() - $('#apod').outerHeight())/2 - $('#apod_image h2').outerHeight(true) > 0 ? ($(window).height() - $('#apod').outerHeight())/2 - $('#apod_image h2').outerHeight(true) : 0
-  });
-  
-  $('#prev_nav').css({
-    height: $(window).height(),
-    'line-height': $(window).height() * 0.96 + 'px'
-  });
-  $('#next_nav').css({
-    height:$('#prev_nav').height(),
-    'line-height': $('#prev_nav').css('line-height')
-  })
-
-});
-
-// To initially run the function. We could use trigger("resize"); on the previous method, but the image is slow to load.
-$(window).load(function (){
-  $(this).resize();
-});
-</script>
 </html>
 
 @@ index
