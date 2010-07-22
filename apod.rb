@@ -43,7 +43,7 @@ helpers do
       end
     end
     @todays_image[:yesterday] = Time.parse((Time.parse(date) - ONE_DAY).to_s).strftime('%y%m%d')
-    @todays_image[:tomorrow] = Time.parse((Time.parse(date) + ONE_DAY).to_s).strftime('%y%m%d') unless Time.parse(date) == Time.now
+    @todays_image[:tomorrow] = Time.parse((Time.parse(date) + ONE_DAY).to_s).strftime('%y%m%d') unless Time.parse(date).strftime('%y%m%d') == Time.now.strftime('%y%m%d')
     @todays_image[:title_date] = Time.parse(date).strftime('%A, %B %e, %Y')
     @todays_image
   end
@@ -53,15 +53,24 @@ configure do
   DataMapper.setup(:default, ENV['DATABASE_URL'] || 'sqlite3://my.db')
 end
 
+not_found do
+  "Sorry, that page wasn't found"
+end
+
+error do
+  "Oops! " + request.env["sinatra.error"].message
+end 
+
 get '/' do
   response.headers['Cache-Control'] = 'public, max-age=3600'
   @todays_image = get_days_image
   erb :index
 end
 
-get "/:date" do
-  if params[:date] =~ /\d{6}/ then
-    @todays_image = get_days_image(params[:date])
+get %r{/(\d{6})} do |date|
+  t = Time.parse(date) rescue false
+  if t then
+    @todays_image = get_days_image(date)
     erb :index
   else
     redirect "/"
@@ -78,7 +87,6 @@ __END__
   <meta name="description" content="" />
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-  <link rel="stylesheet" href="style.css" />
   <link href=' http://fonts.googleapis.com/css?family=Droid+Serif' rel='stylesheet' type='text/css'>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
   <style>
@@ -183,5 +191,7 @@ $(window).load(function (){
   <h2>The Astronomy Picture of the Day for <%= @todays_image[:title_date] %></h2>
   <a href="http://apod.nasa.gov/apod/ap<%= @todays_image[:date] %>.html"><img id="apod" src="<%= @todays_image[:small_image_url] %>" /></a>
 </section>
+<% if @todays_image[:date] != @todays_image[:tomorrow] %>
 <a href="/<%= @todays_image[:tomorrow]%>" id="next_nav"><span class="arrow right">→</span></a>
+<% end %>
 <!-- <a href="<%= @todays_image[:large_image_url]%>" style="text-align:center;">download full size</a> -->
