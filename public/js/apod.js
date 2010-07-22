@@ -1,10 +1,19 @@
 $(document).ready(function(){
 	
+	$('#prev_nav').bind('click', function() {
+	  window.location.href = this.href;
+	  return false;
+	});
+	$('#next_nav').bind('click', function() {
+	  window.location.href = this.href;
+	  return false;
+	});
+	
   $(document).bind('keydown', 'right', function(){ 
-      $('#next_nav').click(); 
+      $('a#next_nav').click(); 
     });
   $(document).bind('keydown', 'left', function(){ 
-      $('#prev_nav').click(); 
+      $('a#prev_nav').click(); 
     });
 
 	$(window).resize(function(){
