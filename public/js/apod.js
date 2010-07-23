@@ -19,22 +19,24 @@ $(document).ready(function(){
 	$(window).resize(function(){
 
 	  $('#apod_image #apod').css({
-	    width: $(this).width() > 0.8 * $(window).width() ? 0.8 * $(window).width() : $(this).width()
+	    'max-width': $(this).width() > 0.8 * $(window).width() ? 0.8 * $(window).width() : $(this).width()
 	  });
 
 	  $('#apod_image').css({
-		  position:'absolute',
 		  left: ($(window).width() - $('#apod').outerWidth())/2 > 0 ? ($(window).width() - $('#apod').outerWidth())/2 : 0,
-		  top: ($(window).height() - $('#apod').outerHeight())/2 - $('#apod_image h2').outerHeight(true) > 0 ? ($(window).height() - $('#apod').outerHeight())/2 - $('#apod_image h2').outerHeight(true) : 0
+		  top: ($(window).height() - $('#apod').outerHeight())/2 - $('#apod_image h2').outerHeight(true) > 0 ? ($(window).height() - $('#apod').outerHeight())/2 - $('#apod_image h2').outerHeight(true) : 0,
+		  width: $('img#apod').width()
 	  });
 
 	  $('#prev_nav').css({
 	    height: $(window).height(),
-	    'line-height': $(window).height() * 0.96 + 'px'
+	    'line-height': $(window).height() * 0.96 + 'px',
+	     width: ($(window).width() - $('#apod_image').width()) / 2
 	  });
 	  $('#next_nav').css({
 	    height:$('#prev_nav').height(),
-	    'line-height': $('#prev_nav').css('line-height')
+	    'line-height': $('#prev_nav').css('line-height'),
+     	width: ($(window).width() - $('#apod_image').width()) / 2
 	  })
 
 	});

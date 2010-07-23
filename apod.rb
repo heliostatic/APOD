@@ -118,6 +118,9 @@ __END__
       text-decoration:none;
     }
     #apod_image {
+      width:80%;
+      margin:auto;
+      position:absolute;
     }
     .clear {
       clear:both;
