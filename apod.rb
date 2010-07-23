@@ -148,7 +148,7 @@ __END__
     }
     .arrow {
       position:fixed;
-      font-size:2em;
+      font-size:3em;
     }
   </style>
   <script type="text/javascript">
