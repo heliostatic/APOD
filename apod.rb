@@ -140,7 +140,7 @@ __END__
       text-align:right;
     }
     .left, .right {
-      margin: 0 1em;
+      margin: 0 .5em;
     }
     .right {
       right:0;
