@@ -92,68 +92,7 @@ __END__
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
   <script src="./js/jquery.hotkeys.js" type="text/javascript"></script>
   <script src="./js/apod.js" type="text/javascript"></script>
-  <style>
-    html {
-      background:url("http://people.ischool.berkeley.edu/~bcohen/sfemail/background.jpg")
-    }
-    body {
-      padding:0;
-      margin:0;
-    }
-    #content {
-    }
-    img {
-      border: 1px black darkgrey;
-      padding: 2px;
-      -moz-box-shadow: 0px 0px 10px #666;
-      -webkit-box-shadow: 0px 0px 10px #666;
-      box-shadow: 0px 0px 10px #666;;
-    }
-    #apod_image h2{
-      text-align:center;
-      font-family: 'Droid Serif';
-      overflow:auto;
-    }
-    a {
-      text-decoration:none;
-    }
-    #apod_image {
-      width:80%;
-      margin:auto;
-      position:absolute;
-    }
-    .clear {
-      clear:both;
-    }
-    #prev_nav, #next_nav {
-      width:10%;
-      display:inline-block;
-      cursor: pointer;
-      padding:0;
-      margin-left:0;
-      margin-right:0;
-      position:fixed;
-    }
-    #prev_nav 
-    {
-      left:0;
-    }
-    #next_nav {
-      right:0;
-      text-align:right;
-    }
-    .left, .right {
-      margin: 0 .5em;
-    }
-    .right {
-      right:0;
-      text-align:right;
-    }
-    .arrow {
-      position:fixed;
-      font-size:3em;
-    }
-  </style>
+  <link rel="stylesheet" href="./css/style.css" media="screen" type="text/css" />
   <script type="text/javascript">
 
     var _gaq = _gaq || [];
