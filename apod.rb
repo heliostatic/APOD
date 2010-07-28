@@ -88,7 +88,7 @@ __END__
   <meta name="description" content="" />
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-  <link href=' http://fonts.googleapis.com/css?family=Droid+Serif' rel='stylesheet' type='text/css'>
+  <link href=' http://fonts.googleapis.com/css?family=Josefin+Sans+Std+Light' rel='stylesheet' type='text/css'>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
   <script src="./js/jquery.hotkeys.js" type="text/javascript"></script>
   <script src="./js/apod.js" type="text/javascript"></script>
@@ -115,12 +115,12 @@ __END__
 </html>
 
 @@ index
-<a href="/<%= @todays_image[:yesterday]%>" id="prev_nav"><span class="arrow left">←</span></a>
+<a href="/<%= @todays_image[:yesterday]%>" id="prev_nav"><span class="arrow left">↫</span></a>
 <section id="apod_image">
-  <h2>The Astronomy Picture of the Day for <%= @todays_image[:title_date] %></h2>
+  <h2>The APOD for <%= @todays_image[:title_date] %></h2>
   <a href="http://apod.nasa.gov/apod/ap<%= @todays_image[:date] %>.html"><img id="apod" src="<%= @todays_image[:small_image_url] %>" /></a>
 </section>
 <% if @todays_image[:date] != @todays_image[:tomorrow] %>
-<a href="/<%= @todays_image[:tomorrow]%>" id="next_nav"><span class="arrow right">→</span></a>
+<a href="/<%= @todays_image[:tomorrow]%>" id="next_nav"><span class="arrow right">↬</span></a>
 <% end %>
 <!-- <a href="<%= @todays_image[:large_image_url]%>" style="text-align:center;">download full size</a> -->

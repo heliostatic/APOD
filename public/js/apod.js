@@ -38,6 +38,10 @@ $(document).ready(function(){
 	    'line-height': $('#prev_nav').css('line-height'),
      	width: ($(window).width() - $('#apod_image').width()) / 2
 	  })
+		$('.arrow').css({
+			width:$('#next_nav').width(),
+			'font-size':$('#next_nav').width()
+		})
 
 	});
 
