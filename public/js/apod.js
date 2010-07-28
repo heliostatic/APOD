@@ -39,8 +39,8 @@ $(document).ready(function(){
      	width: ($(window).width() - $('#apod_image').width()) / 2
 	  })
 		$('.arrow').css({
-			width:$('#next_nav').width(),
-			'font-size':$('#next_nav').width()
+			width:$('#prev_nav').width(),
+			'font-size':$('#prev_nav').width()
 		})
 
 	});
