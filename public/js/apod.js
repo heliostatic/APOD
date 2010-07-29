@@ -34,6 +34,9 @@ $(document).ready(function() {
         width: $('#prev_nav').width(),
         'font-size': $('#prev_nav').width()
     })
+	$('#apod_image').css({
+        left: ($("#prev_nav").width()
+    });
 
     $(window).resize(function() {
 
