@@ -1,72 +1,68 @@
-    html {
-/*      background:url("../images/background.png")*/
-    }
-    body {
-      padding:0;
-      margin:0;
-/*			background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#666666), to(#666666), color-stop(.6,#333));*/
-			background:#f9f9f9;
-    }
-    #content {
-    }
-    img {
-      border: 1px black darkgrey;
-      padding: 2px;
-      -moz-box-shadow: 0px 0px 20px #666;
-      -webkit-box-shadow: 0px 0px 20px #666;
-      box-shadow: 0px 0px 20px #666;;
-    }
-    #apod_image h2{
-      text-align:center;
-			font-size:2em;
-      font-family: 'Josefin Sans Std Light';
-      overflow:auto;
-/*			color:#8b8b8b;*/
-/*			text-shadow: white 0px 1px 1px, #585858 0px -1px 1px;*/
-			color:#585858;
-    }
-    a {
-      text-decoration:none;
-    }
-    #apod_image {
-      width:80%;
-      margin:auto;
-      position:absolute;
-    }
-    .clear {
-      clear:both;
-    }
-    #prev_nav, #next_nav {
-      width:10%;
-      display:inline-block;
-      cursor: pointer;
-      padding:0;
-      margin-left:0;
-      margin-right:0;
-      position:fixed;
-    }
-    #prev_nav 
-    {
-      left:0;
-    }
-    #next_nav {
-      right:0;
-      text-align:right;
-    }
-    .right {
-      right:0;
-      text-align:right;
-    }
-    .arrow {
-      position:fixed;
-			margin: 0 auto;
-			text-align:center;
-			cursor:pointer;
-    }
-		a#prev_nav, a#next_nav {
-			color:#8b8b8b;
-			text-shadow: white 0px 1px 1px, #585858 0px -1px 1px;
-		}
-		a#prev_nav:active, a#next_nav:active {
-/*			-webkit-transition: all 0.3s ease-out;*/
-		}
+html {
+}
+body {
+  padding:0;
+  margin:0;
+  background:#f9f9f9;
+}
+#content {
+}
+img {
+  border: 1px black darkgrey;
+  padding: 2px;
+  -moz-box-shadow: 0px 0px 20px #666;
+  -webkit-box-shadow: 0px 0px 20px #666;
+  box-shadow: 0px 0px 20px #666;;
+}
+#apod_image h2{
+  text-align:center;
+  font-size:2em;
+  font-family: 'Josefin Sans Std Light';
+  overflow:auto;
+  color:#585858;
+}
+a {
+  text-decoration:none;
+}
+#apod_image {
+  width:80%;
+  margin:auto;
+  position:absolute;
+  text-align:center;
+}
+.clear {
+  clear:both;
+}
+#prev_nav, #next_nav {
+  width:10%;
+  display:inline-block;
+  cursor: pointer;
+  padding:0;
+  margin-left:0;
+  margin-right:0;
+  position:fixed;
+}
+#prev_nav 
+{
+  left:0;
+}
+#next_nav {
+  right:0;
+  text-align:right;
+}
+.right {
+  right:0;
+  text-align:right;
+}
+.arrow {
+  position:fixed;
+  margin: 0 auto;
+  text-align:center;
+  cursor:pointer;
+}
+a#prev_nav, a#next_nav {
+  color:#8b8b8b;
+  text-shadow: white 0px 1px 1px, #585858 0px -1px 1px;
+}
+a#prev_nav:active, a#next_nav:active {
+}
