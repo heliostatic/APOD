@@ -68,7 +68,7 @@ get '/' do
 end
 
 get %r{/(\d{6})} do |date|
-  response.headers['Cache-Control'] = 'public, max-age=604800'
+  response.headers['Cache-Control'] = 'public, max-age=3600'
   t = Time.parse(date) rescue false
   if t then
     @todays_image = get_days_image(date)
