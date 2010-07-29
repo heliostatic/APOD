@@ -35,8 +35,8 @@ $(document).ready(function() {
         'font-size': $('#prev_nav').width()
     })
 	$('#apod_image').css({
-        left: ($("#prev_nav").width()
-    });
+        left: ($('#prev_nav').width()
+    })
 
     $(window).resize(function() {
 
