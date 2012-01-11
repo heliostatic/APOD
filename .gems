@@ -1,7 +1,0 @@
-mechanize
-sinatra
-nokogiri
-dm-core
-dm-types
-dm-postgres-adapter
-dm-sqlite-adapter

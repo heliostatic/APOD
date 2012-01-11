@@ -1,2 +1,2 @@
-require 'apod'
+require './apod'
 run Sinatra::Application

@@ -29,6 +29,7 @@ helpers do
     @todays_image[:date] = date
     @todays_image[:tomorrow] = @todays_image[:date]
     @todays_image[:base_url] = (BASE_URL + "ap" + date + ".html")
+    
     doc = Nokogiri::HTML(open(@todays_image[:base_url]))
     doc.css('p > a').each do |link|
       link_url = link.attributes["href"]
@@ -36,16 +37,21 @@ helpers do
         @todays_image[:large_image_url] = BASE_URL + link_url
       end
     end
+    
     doc.css('a > img').each do |link|
       link_url = link.attributes["src"]
       if /image.*\.jpg/ =~ link_url then 
         @todays_image[:small_image_url] = BASE_URL + link_url
       end
     end
+    
     @todays_image[:yesterday] = Time.parse((Time.parse(date) - ONE_DAY).to_s).strftime('%y%m%d')
+    
     @todays_image[:tomorrow] = Time.parse((Time.parse(date) + ONE_DAY).to_s).strftime('%y%m%d') unless Time.parse(date).strftime('%y%m%d') == Time.now.strftime('%y%m%d')
+    
     @todays_image[:title_date] = Time.parse(date).strftime('%A, %B %e, %Y')
-    @todays_image
+    
+    has@todays_image
   end
 end
 
