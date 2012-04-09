@@ -51,7 +51,7 @@ helpers do
     
     @todays_image[:title_date] = Time.parse(date).strftime('%A, %B %e, %Y')
     
-    has@todays_image
+    @todays_image
   end
 end
 
