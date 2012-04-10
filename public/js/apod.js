@@ -30,10 +30,10 @@ $(document).ready(function() {
         'line-height': $('#prev_nav').css('line-height'),
         width: ($(window).width() * .1)
     })
-    $('.arrow').css({
-        width: $('#prev_nav').width(),
-        'font-size': $('#prev_nav').width()
-    })
+    // $('.arrow').css({
+    //     width: $('#prev_nav').width(),
+    //     'font-size': $('#prev_nav').width()
+    // })
 	$('#apod_image').css({
         left: $('#prev_nav').width()
     })
@@ -60,10 +60,10 @@ $(document).ready(function() {
             'line-height': $('#prev_nav').css('line-height'),
             width: ($(window).width() - $('#apod_image').width()) / 2
         })
-        $('.arrow').css({
-            width: $('#prev_nav').width(),
-            'font-size': $('#prev_nav').width()
-        })
+        // $('.arrow').css({
+        //     width: $('#prev_nav').width(),
+        //     'font-size': $('#prev_nav').width()
+        // })
 
     });
 

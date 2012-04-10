@@ -1,9 +1,13 @@
-<a href="/<%= @todays_image[:yesterday]%>" id="prev_nav"><span class="arrow left">↫</span></a>
+<div id="left_nav">
+  <a href="/<%= @todays_image[:yesterday]%>" id="prev_nav"><span class="arrow left">↫</span></a>
+</div>
 <section id="apod_image">
   <h2>The APOD for <%= @todays_image[:title_date] %></h2>
   <a href="http://apod.nasa.gov/apod/ap<%= @todays_image[:date] %>.html"><img id="apod" src="<%= @todays_image[:small_image_url] %>" /></a>
 </section>
-<% if @todays_image[:date] != @todays_image[:tomorrow] %>
-<a href="/<%= @todays_image[:tomorrow]%>" id="next_nav"><span class="arrow right">↬</span></a>
-<% end %>
+<div id="right_nav">
+  <% if @todays_image[:date] != @todays_image[:tomorrow] %>
+    <a href="/<%= @todays_image[:tomorrow]%>" id="next_nav"><span class="arrow right">↬</span></a>
+  <% end %>
+</div>
 <!-- <a href="<%= @todays_image[:large_image_url]%>" style="text-align:center;">download full size</a> -->
